@@ -18,7 +18,7 @@ This Terraform module provisions an EC2 instance in AWS, along with the required
 
 ```hcl
 module "master" {
-  source                       = "../machine"
+  source                       = "iamanonymous419/custom-module/aws"
   instance_name                = "master"
   env                          = "your_env"
   instance_key_pair_location   = "your_key_pair_location"
@@ -80,6 +80,45 @@ module "master" {
 | `instance_tags`              | Tags associated with the EC2 instance. Useful for identification.          |
 | `instance_security_groups`   | The security groups associated with the EC2 instance.                      |
 
+```hcl
+output "master_instance_dns" {
+  description = "The public DNS of the master EC2 instance"
+  value       = module.master.instance_dns
+}
+
+output "master_instance_id" {
+  description = "The ID of the master EC2 instance"
+  value       = module.master.instance_id
+}
+
+output "master_instance_public_ip" {
+  description = "The public IP address of the master EC2 instance"
+  value       = module.master.instance_public_ip
+}
+
+output "master_instance_private_ip" {
+  description = "The private IP address of the master EC2 instance"
+  value       = module.master.instance_private_ip
+}
+
+
+
+output "master_instance_availability_zone" {
+  description = "The Availability Zone of the master EC2 instance"
+  value       = module.master.instance_availability_zone
+}
+
+output "master_instance_tags" {
+  description = "Tags associated with the master EC2 instance"
+  value       = module.master.instance_tags
+}
+
+output "master_instance_security_groups" {
+  description = "The security groups associated with the master EC2 instance"
+  value       = module.master.instance_security_groups
+}
+```
+
 #### Explanation of Each Output:
 
 - instance_dns:
@@ -125,7 +164,7 @@ This module consists of the following resources:
 
 ```hcl
 module "basic" {
-  source                       = "../machine"
+  source                       = "iamanonymous419/custom-module/aws"
   instance_name                = "basic-instance"
   instance_key_pair_location   = "path/to/key_pair.pub"
   instance_key_pair            = "my-key-pair"
@@ -152,7 +191,7 @@ module "basic" {
 
 ```hcl
 module "multi-ingress" {
-  source                       = "../machine"
+  source                       = "iamanonymous419/custom-module/aws"
   instance_name                = "multi-ingress-instance"
   instance_key_pair_location   = "path/to/key_pair.pub"
   instance_key_pair            = "my-key-pair"
