@@ -17,7 +17,7 @@ This Terraform module provisions an EC2 **Spot Instance** in AWS, along with the
 
 ```hcl
 module "master" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source                       = "iamanonymous419/custom-module/aws//modules/spot"
   instance_name                = "master"
   env                          = "your_env"
   instance_key_pair_location   = "your_key_pair_location"
@@ -172,7 +172,7 @@ This module consists of the following resources:
 
 ```hcl
 module "basic" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source                       = "iamanonymous419/custom-module/aws//modules/spot"
   instance_name                = "basic-instance"
   instance_key_pair_location   = "path/to/key_pair.pub"
   instance_key_pair            = "my-key-pair"
