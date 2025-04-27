@@ -55,7 +55,8 @@ provider "aws" {
 }
 
 module "master" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source  = "iamanonymous419/ec2-module/aws"
+  version = "3.0.0"
   instance_name                = "master"
   env                          = "test"
   instance_key_pair_location   = "./test.pub"
@@ -87,7 +88,8 @@ module "master" {
 }
 
 module "master_2" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source  = "iamanonymous419/ec2-module/aws"
+  version = "3.0.0"
   instance_name                = "master_2"
   env                          = "test"
   instance_key_pair_location   = "./test.pub"

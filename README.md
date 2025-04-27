@@ -18,7 +18,8 @@ This Terraform module provisions an EC2 instance in AWS, along with the required
 
 ```hcl
 module "master" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source  = "iamanonymous419/ec2-module/aws"
+  version = "3.0.0"
   instance_name                = "master"
   env                          = "your_env"
   instance_key_pair_location   = "your_key_pair_location"
@@ -162,7 +163,8 @@ This module consists of the following resources:
 
 ```hcl
 module "basic" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source  = "iamanonymous419/ec2-module/aws"
+  version = "3.0.0"
   instance_name                = "basic-instance"
   instance_key_pair_location   = "path/to/key_pair.pub"
   instance_key_pair            = "my-key-pair"
@@ -189,7 +191,8 @@ module "basic" {
 
 ```hcl
 module "multi-ingress" {
-  source                       = "iamanonymous419/custom-module/aws"
+  source  = "iamanonymous419/ec2-module/aws"
+  version = "3.0.0"
   instance_name                = "multi-ingress-instance"
   instance_key_pair_location   = "path/to/key_pair.pub"
   instance_key_pair            = "my-key-pair"

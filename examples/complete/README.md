@@ -53,7 +53,8 @@ provider "aws" {
 }
 
 module "master" {
-  source                       = "iamanonymous419/custom-module/aws"  # Update the path accordingly
+  source  = "iamanonymous419/ec2-module/aws" 
+  version = "3.0.0"
   instance_name                = "master-instance"
   env                          = "test"
   instance_key_pair_location   = "./test.pub"
