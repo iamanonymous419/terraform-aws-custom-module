@@ -1,10 +1,9 @@
-Here's the updated README that includes the explanation of each output for the EC2 instance module:
+# Terraform EC2 Spot Instance Module
 
----
+> **Note:**  
+> This module is designed to **provision EC2 Spot Instances** in AWS. Spot Instances allow you to take advantage of unused EC2 capacity at a discounted cost compared to On-Demand pricing.  
 
-# Terraform EC2 Instance Module
-
-This Terraform module provisions an EC2 instance in AWS, along with the required resources such as security groups, SSH key pairs, and root block storage. It is highly customizable and supports a variety of configurations for deployment environments.
+This Terraform module provisions an EC2 **Spot Instance** in AWS, along with the required resources such as security groups, SSH key pairs, and root block storage. It is highly customizable and supports a variety of configurations for deployment environments.
 
 ## Requirements
 
@@ -50,13 +49,18 @@ module "master" {
 }
 ```
 
-### Inputs
+> **Reminder:**  
+> The instance provisioned through this module will request a **Spot Instance**.
+
+---
+
+## Inputs
 
 | Variable                      | Description                                                                 | Type     | Default | Required |
 | ----------------------------- | --------------------------------------------------------------------------- | -------- | ------- | -------- |
-| `instance_name`               | The name of the EC2 instance.                                                | `string` | `N/A`   | Yes      |
+| `instance_name`               | The name of the EC2 Spot instance.                                           | `string` | `N/A`   | Yes      |
 | `instance_type`               | The EC2 instance type (e.g., `t2.micro`, `t2.medium`, `t3.large`).           | `string` | `N/A`   | Yes      |
-| `instance_ami`                | The AMI ID for the EC2 instance.                                             | `string` | `N/A`   | Yes      |
+| `instance_ami`                | The AMI ID for the EC2 Spot instance.                                        | `string` | `N/A`   | Yes      |
 | `instance_storage`            | The storage size in GB for the EC2 instance.                                | `number` | `N/A`   | Yes      |
 | `instance_key_pair`           | The name of the SSH key pair for EC2 access.                                | `string` | `N/A`   | Yes      |
 | `instance_key_pair_location`  | The local path to the SSH key pair file for EC2 access.                     | `string` | `N/A`   | Yes      |
@@ -68,7 +72,9 @@ module "master" {
 | `subnet_id`                   | The ID of the subnet to launch the EC2 instance in.                         | `string` | `N/A`   | Yes      |
 | `vpc_id`                      | The ID of the VPC where the EC2 instance will be launched.                  | `string` | `N/A`   | Yes      |
 
-### Outputs
+---
+
+## Outputs
 
 | Output Name                  | Description                                                                |
 | ---------------------------- | -------------------------------------------------------------------------- |
@@ -147,18 +153,22 @@ output "master_instance_security_groups" {
   - **Description**: The security groups associated with the EC2 instance.
   - **Explanation**: Lists the security groups linked to the EC2 instance, which control its network traffic.
 
+---
+
 ## Module Structure
 
 This module consists of the following resources:
 
-1. **EC2 Instance**: The main resource for creating an EC2 instance, including root block storage and key pair.
+1. **EC2 Spot Instance**: The main resource for creating a Spot Instance, including root block storage and key pair.
 2. **Security Group**: Dynamically creates security group rules based on the ingress rules provided.
 3. **Key Pair**: Provisions an SSH key pair for EC2 instance access.
 4. **Outputs**: Outputs the instance ID, DNS, public IP, and other relevant information for the created EC2 instance.
 
+---
+
 ## Example Configuration
 
-### Example 1: Basic EC2 Instance Setup
+### Example 1: Basic EC2 Spot Instance Setup
 
 ```hcl
 module "basic" {
@@ -185,80 +195,6 @@ module "basic" {
 }
 ```
 
-### Example 2: EC2 Instance with Multiple Ingress Rules
+> **Again:**  
+> The instance launched here will be a **Spot Instance**, not an On-Demand one.
 
-```hcl
-module "multi-ingress" {
-  source                       = "iamanonymous419/custom-module/aws"
-  instance_name                = "multi-ingress-instance"
-  instance_key_pair_location   = "path/to/key_pair.pub"
-  instance_key_pair            = "my-key-pair"
-  associate_public_ip_address  = true
-  instance_type                = "t3.medium"
-  instance_ami                 = "ami-0c55b159cbfafe1f0" # Replace with your AMI ID
-  instance_storage             = 30
-  instance_security_group_name = "multi-ingress-sg"
-  ingress_rules                = [
-    {
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow SSH"
-    },
-    {
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow HTTP"
-    }
-  ]
-  subnet_id                    = "subnet-xxxxxxxx"
-  vpc_id                       = "vpc-xxxxxxxx"
-}
-```
-
-
-### Outputs
-
-```hcl
-output "instance_dns" {
-  description = "Public DNS address of the EC2 instance"
-  value       = aws_instance.machine.public_dns
-}
-
-output "instance_id" {
-  description = "The ID of the EC2 instance"
-  value       = aws_instance.machine.id
-}
-
-output "instance_public_ip" {
-  description = "The public IP address of the EC2 instance"
-  value       = aws_instance.machine.public_ip
-}
-
-output "instance_private_ip" {
-  description = "The private IP address of the EC2 instance"
-  value       = aws_instance.machine.private_ip
-}
-
-output "instance_availability_zone" {
-  description = "The Availability Zone of the EC2 instance"
-  value       = aws_instance.machine.availability_zone
-}
-
-output "instance_tags" {
-  description = "Tags associated with the EC2 instance"
-  value       = aws_instance.machine.tags
-}
-
-output "instance_security_groups" {
-  description = "The security groups associated with the EC2 instance"
-  value       = aws_instance.machine.security_groups
-}
-```
-
-## Contributing
-
-Feel free to submit issues and pull requests to improve the module.
